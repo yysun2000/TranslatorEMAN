@@ -1,0 +1,1 @@
+var translator = new TranslatorManager();

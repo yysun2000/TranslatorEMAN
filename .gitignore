@@ -1,0 +1,5 @@
+node_modules/
+files/
+test/
+*.xlsx
+*/*.xlsx

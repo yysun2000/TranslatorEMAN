@@ -1,0 +1,2 @@
+"# excelTranslate" 
+"# TranslatorEMAN" 

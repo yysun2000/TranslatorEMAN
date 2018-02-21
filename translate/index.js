@@ -109,6 +109,7 @@ module.exports = function(option){
           currentPos++;
           await cnt++;
         }
+        global.cnt++;
         if(test !== ""){
           /*
           test에 남아있는 경우 번역후에 파일로 만든다.

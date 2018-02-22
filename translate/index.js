@@ -4,7 +4,6 @@ const xlsxj = require("xlsx-to-json");
 const json2xls = require('json2xls');
 const translate = require('google-translate-api');
 const fs = require('fs');
-const sleep = require('sleep');
 
 
 function clone(obj) {

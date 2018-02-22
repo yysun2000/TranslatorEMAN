@@ -3,3 +3,4 @@ files/
 test/
 *.xlsx
 */*.xlsx
+package-lock.json

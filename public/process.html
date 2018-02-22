@@ -1,30 +1,163 @@
 <!DOCTYPE html>
-<html>
-  <head>
-    <meta charset="utf-8">
-    <script src="./javascript/ys.js"></script>
-    <script src="./javascript/translator.js"></script>
-    <script src="./javascript/common.js"></script>
-  </head>
-  <body>
-    <div>
-      <p>번역중</p>
-      <p><span id='currentCount'>0</span>/<span id='totalCount'>0</span></p>
-      <p>남은 갯수</p>
-      <p><span id='restCount'>0</span></p>
-      <p>소요 시간</p>
-      <p></p>
-    </div>
-    <div>
-      <div>취소/메인으로 이동</div>
-    </div>
-      <script>
-      setInterval(function(){
-        translator.update();
-        ys.one('#currentCount',document).innerText = translator.cnt
-        ys.one('#totalCount',document).innerText = translator.total
-        ys.one('#restCount',document).innerText = translator.rest
-      },1000)
-      </script>
-  </body>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Global Translate</title>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+<script src="./javascript/ys.js"></script>
+<script src="./javascript/translator.js"></script>
+<script src="./javascript/common.js"></script>
+
+<style>
+*	{ padding:0; margin:0 }
+.filebox	{ position:absolute; top:50%; left:50%; margin-top:-200px; margin-left:-130px; padding-bottom: 100px; text-align:center }
+.filebox > h2	{ margin-bottom:30px }
+.filebox input[type=button]  { width:100%; display:inline-block; margin-top:30px; padding: .5em .75em; color: #FFF; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #333; cursor: pointer; border: 1px solid #333; border-radius: .25em; }
+.filebox input[type=button].download	{ margin-top:5px; background:#f4614d; border-color:#f4614d; display:block }
+.filebox .process	{ width:100%; border:1px solid #666; padding:30px 20px 30px 20px; box-sizing:border-box; background:#EEE }
+.filebox .process.error .qty > p strong	{ color:red }
+.filebox .process .qty > p	{ margin-bottom:20px }
+.filebox .process .qty > p:last-child	{ margin-bottom:0 }
+
+</style>
+
+</head>
+
+<body>
+
+<div class="filebox">
+	<h2>Global Hyundaihmall<br>상품명 번역 (KO &gt; EN)</h2>
+
+	<div class="process">
+		<div class="qty">
+			<p>
+				<span id='state'>로딩 중</span><br>
+				<span id='currentCount'>0</span>/<strong><span id='totalCount'>0</span></strong>
+			</p>
+			<p>
+				남은 갯수<br>
+				<span id='restCount'>0</span>
+			</p>
+			<p>
+				소요시간<br>
+				<strong><span id="hours">00</span>:<span id="minutes">00</span>:<span id="seconds">00</span></strong>
+			</p>
+		</div>
+	</div>
+	<div class="download">
+	</div>
+	<input type="button" class="cancel"  value="취소" onclick='translator.stop()'/>
+
+	<div class="process error" style='display:none;'>
+		<div class="qty">
+			<p>
+				<strong>
+					&lt;ERROR&gt;<br>
+					<span id='error'></span>
+				</strong>
+			</p>
+			<p>
+				&lt;문의&gt;<br>
+				2143-2626<br>
+				유영선 선임
+			</p>
+		</div>
+	</div>
+
+
+	<input type="button" class="gotomain" style='display:none;' value="메인으로 이동" onclick='translator.reset()'/>
+
+
+	<script>
+	function goURL(url){
+		location.href=url;
+	}
+	function setState(text){
+		ys.one("#state",document).innerText = text
+	}
+	function convertOnecharToTwochar(data){
+	  if(data.toString().length == 1){
+	    return "0"+data;
+	  }else{
+	    return data;
+	  }
+	}
+
+	setInterval(function(){
+		translator.update();
+		ys.one('#currentCount',document).innerText = translator.cnt
+		ys.one('#totalCount',document).innerText = translator.total
+		ys.one('#restCount',document).innerText = translator.rest
+		setState("번역중");
+		/* 다운로드 링크 추가 */
+		var downloadListText = translator.DOWNLOAD_URL;
+		var downloadList = downloadListText.split("\n");
+		var downloadListLength = downloadList.length-1;
+		var currentLength = ys.all(".filebox .download > input",document).length
+		if(currentLength < downloadListLength){
+			var url = downloadList[currentLength].replace("\\","/").replace("./public","");
+			var name = url.replace("/files/","");
+			var inputHTML = '<input type="button" class="download" value="'+name+'" onclick="goURL(\''+url+'\')"/>'
+			ys.one(".filebox .download",document).innerHTML += inputHTML;
+		}
+		/* // 다운로드 링크 추가 */
+
+
+		/* 메인, 취소 구현 */
+		//console.log(translator.COMPLETE);
+		if(translator.COMPLETE == true){
+			ys.one(".gotomain",document).style.display = "block";
+			ys.one(".cancel",document).style.display = "none";
+			setState("번역 완료!");
+		}
+		/* // 메인, 취소 구현 */
+
+		/* 에러 구현 */
+
+		if(translator.ERROR !== ""){
+			ys.one('#error',document).innerText = translator.ERROR
+			ys.one(".download",document).style.display = "none";
+			ys.one(".process",document).style.display = "none";
+			ys.one(".process.error",document).style.display = "block";
+			ys.one(".gotomain",document).style.display = "block";
+			ys.one(".cancel",document).style.display = "none";
+		}
+		if(translator.FORCE_STOP == true){
+			setState("번역이 강제중지됨");
+			ys.one(".gotomain",document).style.display = "block";
+			ys.one(".cancel",document).style.display = "none";
+		}
+		/* // 에러 구현 */
+
+		//console.log("UPDATE");
+
+		var startTime = new Date(translator.STARTDATE);
+
+		if(translator.COMPLETE == true || translator.FORCE_STOP == true){
+			var currentTime = new Date(translator.COMPLETEDATE);
+			var totalSecond = (currentTime.getTime() - startTime.getTime())/ 1000;
+			ys.one("#seconds",document).innerText = convertOnecharToTwochar(Math.floor((totalSecond%60)))
+			ys.one("#minutes",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60) %60)))
+			ys.one("#hours",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60)/60)))
+		}else{
+		var currentTime = new Date();
+			var totalSecond = (currentTime.getTime() - startTime.getTime())/ 1000;
+			ys.one("#seconds",document).innerText = convertOnecharToTwochar(Math.floor((totalSecond%60)))
+			ys.one("#minutes",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60) %60)))
+			ys.one("#hours",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60)/60)))
+		}
+		/*
+
+
+			<input type="button" class="download" value="파일명_20180220818_1 - 다운로드" />
+			<input type="button" class="download" value="파일명_20180220818_1 - 다운로드" />
+			<input type="button" class="download" value="파일명_20180220818_1 - 다운로드" />
+
+		*/
+		//ys.one('#error',document).innerText = translator.ERROR
+	},1000)
+	</script>
+</div>
+
+</body>
 </html>

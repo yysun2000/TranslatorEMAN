@@ -3,6 +3,7 @@ const translate = require("./translate");
 const web = require("./web")
 
 web.listen(4000,(req,res)=>{
-  translate({inputfilename:"./test/한글.xlsx",jsonfilename:"./한글_result.json"})
+  /*
+  translate({inputfilename:"./test/한글.xlsx",jsonfilename:"./한글_result.json"})*/
   console.log("DONE!");
 })

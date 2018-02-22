@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Global Translate</title>
+<script src="https://code.jquery.com/jquery-1.11.3.min.js"></script>
+
+<style>
+*	{ padding:0; margin:0 }
+.filebox	{ position:absolute; top:50%; left:50%; margin-top:-200px; margin-left:-130px; text-align:center }
+.filebox > h2	{ margin-bottom:30px }
+.filebox input[type=button]  { width:100%; display:inline-block; margin-top:30px; padding: .5em .75em; color: #FFF; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #333; cursor: pointer; border: 1px solid #333; border-radius: .25em; }
+.filebox input[type=button].download	{ margin-top:5px; background:#f4614d; border-color:#f4614d; display:block }
+.filebox .process	{ width:100%; border:1px solid #666; padding:30px 20px 30px 20px; box-sizing:border-box; background:#EEE }
+.filebox .process.error .qty > p strong	{ color:red }
+.filebox .process .qty > p	{ margin-bottom:20px }
+.filebox .process .qty > p:last-child	{ margin-bottom:0 }
+.filebox .download		{ margin-top:15px }
+</style>
+
+</head>
+
+<body>
+
+<div class="filebox">
+	<h2>Global Hyundaihmall<br>상품명 번역 (KO &gt; EN)</h2>
+	
+	<div class="process">
+		<div class="qty">
+			<p>
+				번역 완료<br>
+				<strong>1,000,000</strong>
+			</p>
+			<p>
+				소요시간<br>
+				<strong>00:00:00</strong>
+			</p>
+		</div>
+	</div>
+	
+	<div class="download">
+		<input type="button" class="download" value="파일명_20180220818_1 - 다운로드" />
+		<input type="button" class="download" value="파일명_20180220818_1 - 다운로드" />
+		<input type="button" class="download" value="파일명_20180220818_1 - 다운로드" />
+	</div>
+	
+	<input type="button" class="" value="메인으로 이동" />
+</div>
+
+</body>
+</html>

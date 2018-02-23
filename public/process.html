@@ -133,19 +133,21 @@
 
 		var startTime = new Date(translator.STARTDATE);
 
-		if(translator.COMPLETE == true || translator.FORCE_STOP == true){
+		//if(translator.COMPLETE == true || translator.FORCE_STOP == true){
 			var currentTime = new Date(translator.COMPLETEDATE);
 			var totalSecond = (currentTime.getTime() - startTime.getTime())/ 1000;
 			ys.one("#seconds",document).innerText = convertOnecharToTwochar(Math.floor((totalSecond%60)))
 			ys.one("#minutes",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60) %60)))
 			ys.one("#hours",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60)/60)))
-		}else{
+		//}else{
+		/*
 		var currentTime = new Date();
 			var totalSecond = (currentTime.getTime() - startTime.getTime())/ 1000;
 			ys.one("#seconds",document).innerText = convertOnecharToTwochar(Math.floor((totalSecond%60)))
 			ys.one("#minutes",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60) %60)))
 			ys.one("#hours",document).innerText = convertOnecharToTwochar(Math.floor(((totalSecond/60)/60)))
-		}
+			*/
+		//}
 		/*
 
 

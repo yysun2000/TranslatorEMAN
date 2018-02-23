@@ -152,6 +152,8 @@ module.exports = function(option){
             global.rest = total.length;
             currentPos++;
             await cnt++;
+
+            global.COMPLETEDATE = new DateManager().datetime;
           }
           global.cnt++;
           if(test !== ""){

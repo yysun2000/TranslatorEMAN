@@ -33,6 +33,7 @@ $(document).ready(function(){
 .filebox input[type="file"]	{ position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip:rect(0,0,0,0); border: 0; }
 .filebox label, .download, .ex_translate  { display: inline-block; padding: .5em .75em; color: #FFF; font-size: inherit; line-height: normal; vertical-align: middle; background-color: #f4614d; cursor: pointer; border: 1px solid #F4614d; border-radius: .25em; }
 .filebox .upload-name { display: inline-block; padding: .5em .75em; font-size: inherit; font-family: inherit; line-height: normal; vertical-align: middle; background-color: #f5f5f5; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; -webkit-appearance: none; -moz-appearance: none; appearance: none; }
+.filebox select { display: inline-block; padding: .5em .75em; font-size: inherit; font-family: inherit; line-height: normal; vertical-align: middle; background-color: #f5f5f5; border: 1px solid #ebebeb; border-bottom-color: #e2e2e2; border-radius: .25em; }
 </style>
 
 </head>
@@ -40,17 +41,42 @@ $(document).ready(function(){
 <body>
 
 <div class="filebox">
-	<h2>Global Hyundaihmall<br>상품명 번역 (KO &gt; EN)</h2>
+	<h2>Global Hyundaihmall<br>상품명 번역</h2>
 
 		<form id='pt' action="/up" method="post" enctype="multipart/form-data">
-			<input class="upload-name" value="파일선택" disabled="disabled">
-			<label for="ex_filename">파일찾기</label>
-			<input type="file" id="ex_filename" class="upload-hidden" name="uploadFile">
-			<input type="button" onclick="csubmit()" id="ex_translate" class="ex_translate" value="번역">
+			<div style='padding-bottom:20px;'>
+				<input class="upload-name" value="파일선택" disabled="disabled">
+				<label for="ex_filename">파일찾기</label>
+				<input type="file" id="ex_filename" class="upload-hidden" name="uploadFile">
+			</div>
+
+			<div>
+				<select id='lang' name='lang'>
+				</select>
+				<input type="button" onclick="csubmit()" id="ex_translate" class="ex_translate" value="번역">
+			</div>
+
 		</form>
 
 </div>
 <script>
+	var langList = ['en','ko','zh-cn','zh-tw','ja','af','sq','am',
+									'ar','hy','az','eu','be','bn',
+									'bs','bg','ca','ceb','ny','co',
+									'hr','cs','da','nl','eo','et','tl','fi','fr',
+									'fy','gl','ka','de','el','gu','ht','ha','haw','iw',
+									'hi','hmn','hu','is','ig','id','ga','it','jw',
+									'kn','kk','km','ku','ky','lo','la','lv','lt','lb',
+									'mk','mg','ms','ml','mt','mi','mr','mn','my','ne','no',
+									'ps','fa','pl','pt','ma','ro','ru','sm','gd','sr','st','sn',
+									'sd','si','sk','sl','so','es','su','sw','sv','tg','ta','te',
+									'th','tr','uk','ur','uz','vi','cy','xh','yi','yo','zu'];
+	(function(){
+		for(i=0;i<langList.length;i++){
+			ys.one("#lang",document).innerHTML += "<option value='"+langList[i]+"'>"+langList[i]+"</option>"
+		}
+	})()
+
 	function csubmit(){
 		var s = function(sel){return ys.one(sel,document)};
 		if(s("#ex_filename").value == ""){

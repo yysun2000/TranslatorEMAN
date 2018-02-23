@@ -77,6 +77,6 @@ router.post('/up', upload.single('uploadFile'), (req, res) => {
   res.writeHead(302,{"Location":"process.html"})
   res.end();
   console.log(req.file.path);
-  translate({inputfilename:req.file.path,jsonfilename:req.file.filename+".json"})
+  translate({inputfilename:req.file.path,jsonfilename:req.file.filename+".json",lang:req.body.lang})
 });
 module.exports = router;

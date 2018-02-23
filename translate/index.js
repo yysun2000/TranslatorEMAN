@@ -93,7 +93,7 @@ module.exports = function(option){
           var datetimeStr = new DateManager().text;
           var fileName = function(){
   //          return './files/'+option.inputfilename+"_"+test+"_"+fileNo+'.xlsx';
-            return "./public/"+option.inputfilename.replace(".xlsx","")+"_"+datetimeStr+"_"+fileNo+'.xlsx';
+            return "./public/"+option.inputfilename.replace(".xlsx","")+"_"+datetimeStr+"_"+option.lang+"_"+fileNo+'.xlsx';
           }
           while(global.FORCE_STOP == false && total.length > 0){
             console.log(global.FORCE_STOP);
@@ -116,7 +116,7 @@ module.exports = function(option){
             if(currentPos >= div){
               currentPos = 0;
               console.log(ret.length);
-              await translate(test, {to: 'en'}).then(res => {
+              await translate(test, {to: option.lang}).then(res => {
                   //tresult += (res.text);
                   var part = res.text.split("\n\n");
                   for(i=0;i<part.length;i++){
@@ -158,7 +158,7 @@ module.exports = function(option){
             /*
             test에 남아있는 경우 번역후에 파일로 만든다.
             */
-            await translate(test, {to: 'en'}).then(res => {
+            await translate(test, {to: option.lang}).then(res => {
               console.log("짬처리");
                 var part = res.text.split("\n\n");
                 for(i=0;i<part.length;i++){
